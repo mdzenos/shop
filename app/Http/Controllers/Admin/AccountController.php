@@ -5,37 +5,35 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Request;
+use Illuminate\Http\Client\Response;
 
 
 class AccountController extends Controller
-{
-    public function __construct()
-    {
-        //$this->middleware('auth:api', ['except' => ['login', 'register']]);
-    }
-    
+{   
     public function login(Request $request)
     {
         $this-> validate($request,[
         'email' => 'required|email:filter',
-        'password' => 'required',
+        'password' => 'required|string|min:6',
         ]);
 
         $input = $request->all();
-        $data = Http::post('laravel-app.test/api/auth/login', [ //laravel-app.test
+
+        $response = Http::post('shopx.test/api/auth/login', [
             'email' => $input['email'],
             'password' => $input['password']
         ]);
-        if (isset($data['data']['access_token'])) {
+        if (isset($response['data']['access_token'])) {
             //luu token serve response
-            Session::put('access_token', $data['data']['access_token']);
-            Session::put('name', $data['user']['name']);
+            Session::put('access_token', $response['data']['access_token']);
+            Session::put('name', $response['user']['name']);
             return redirect()->route('dashboard');
+            //return json_decode($data, true);
         } else {
-            Session::flash('error', 'Email hoặc Password không đúng');
+            Session::flash('error', 'Email hoặc password không đúng');
             return back() ; 
         }
     }
@@ -52,7 +50,7 @@ class AccountController extends Controller
         
 
         $input = $request->all();
-        $data = Http::post('laravel-app.test/api/auth/register', [ //laravel-app.test
+        $data = Http::post('shopx.test/api/auth/register', [ //shopx.test
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => $input['password'],
@@ -76,11 +74,10 @@ class AccountController extends Controller
                 Session::flash('error','Lỗi Token');
                 return back();
             }
-            $token = Session::get('access_token');
-            $response = Http::withToken($token)->post('laravel-app.test/api/auth/user');
-            $response = json_decode($response, true);
-            return view('auth.profile',['response' => $response]);
-            //
+                $token = Session::get('access_token');
+                $response = Http::withToken($token)->post('shopx.test/api/auth/profile');
+                $response = json_decode($response, true);
+                return view('auth.profile',['response' => $response]);
         } catch (\Exception $excep) {
             echo $excep->getMessage();
         }
@@ -93,12 +90,11 @@ class AccountController extends Controller
                 throw new \Exception('Lỗi Token');
             }
             $token = Session::get('access_token');
-            $data = Http::post('laravel-app.test/api/auth/logout', [
+            $data = Http::post('shopx.test/api/auth/logout', [
                 'token' => $token,
             ]);
             Session::forget('access_token');
-            Session::flash('error', $data['message']??'Đã Đăng xuất!');
-            return redirect()->route('login');
+            return redirect()->route('login')->with('success', 'Đã đăng xuất!');
         } catch (\Exception $excep) {
             echo $excep->getMessage();
         }
@@ -108,7 +104,7 @@ class AccountController extends Controller
     {
         $input = $request->all();
         $this-> validate($request,[
-            'old_password' => 'required|string|min:6',
+            //'old_password' => 'required|string|min:6',
             'new_password' => 'required|string|confirmed|min:6',
         ]);
         try {
@@ -116,9 +112,9 @@ class AccountController extends Controller
                 throw new \Exception('Lỗi Token');
             }
             $token = Session::get('access_token');
-            $data = Http::post('laravel-app.test/api/auth/change-password', [ //laravel-app.test
+            $data = Http::post('shopx.test/api/auth/change-password', [ //shopx.test
                 'token' => $token,
-                'old_password' => $input['old_password'],
+                //'old_password' => $input['old_password'],
                 'new_password' => $input['new_password'],
                 'new_password_confirmation' => $input['new_password_confirmation']
             ]);

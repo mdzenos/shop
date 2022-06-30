@@ -12,22 +12,8 @@ class JwtMiddleware extends BaseMiddleware
 {
     public function handle($request, Closure $next)
     {
-        try {
-            if(!Session::get('access_token')){
-                Session::flash('error', 'Chưa Đăng Nhập!');
-                return redirect()->route('login');
-            }
-            // $user = User::first();
-
-            // // Get the token
-            // $token = auth()->login($user);
-            //$user = JWTAuth::parseToken()->authenticate();
-        } catch (Exception $e) {
-            if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException) {
-                return response()->json(['status' => 'Token is Invalid']);
-            } else if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException) {
-                return response()->json(['status' => 'Token is Expired']);
-            } 
+        if (!Session::get('access_token')) {
+            return redirect()->route('login')->with('error','Chưa Đăng Nhập!');
         }
         return $next($request);
     }

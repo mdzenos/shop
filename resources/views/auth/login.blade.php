@@ -46,12 +46,13 @@
               </label>
             </div>
           </div>
-          <!-- /.col -->
-          @csrf
+          
+          <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+          {{-- @csrf --}}
+          
           <div class="col-4">
-            <button type="submit" name="submit" class="btn btn-primary btn-block">Sign In</button>
+            <button type="submit" name="submit" value="submit" class="btn btn-primary btn-block">Sign In</button>
           </div>
-          <!-- /.col -->
         </div>
       </form>
 

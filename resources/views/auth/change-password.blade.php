@@ -9,17 +9,6 @@
                 <div class="col-lg-3"></div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="old_password">Mật Khẩu Hiện Tại</label>
-                        <input type="password" name="old_password" class="form-control" placeholder="Nhập tên sản phẩm">
-                    </div>
-                </div>
-
-                <div class="col-lg-3"></div>
-            </div>
-            <div class="row">
-                <div class="col-lg-3"></div>
-                <div class="col-md-6">
-                    <div class="form-group">
                         <label for="new_password">Mật Khẩu Mới</label>
                         <input type="password" name="new_password" class="form-control" placeholder="Nhập tên sản phẩm">
                     </div>
