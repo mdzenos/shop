@@ -4,9 +4,8 @@ $.ajaxSetup({
     }
 });
 
-/*Xoa Danh Muc*/
 function removeRow(id, url) {
-    if (confirm('Xóa không thể khôi phục. Xác nhận ?')) {
+    if (confirm('Xóa mà không thể khôi phục. Bạn có chắc ?')) {
         $.ajax({
             type: 'DELETE',
             datatype: 'JSON',
@@ -36,7 +35,7 @@ $('#upload').change(function () {
         type: 'POST',
         dataType: 'JSON',
         data: form,
-        url: '/admin/upload',
+        url: '/admin/upload/services',
         success: function (results) {
             if (results.error === false) {
                 $('#image_show').html('<a href="' + results.url + '" target="_blank">' +

@@ -21,6 +21,7 @@ Route::get('/', function () {
     return view('index');
 });
 
+
 Route::group(['prefix' => 'admin'], function () {
 
     Route::group(['prefix' => 'auth'], function () {
@@ -52,6 +53,9 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('upload', [UploadController::class, 'store']);
         Route::get('resize-image', [ImageController::class, 'resizeImage'])->name('form.image');
         Route::post('resize-image', [ImageController::class, 'resize'])->name('resize.image');
+        
+        #Upload
+        Route::post('upload/services', [\App\Http\Controllers\Admin\UploadController::class, 'store']);
         
         Route::group(['prefix' => 'product'], function () {
             Route::get('/', [ProductController::class, 'index']);

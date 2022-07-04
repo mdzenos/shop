@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\Webhook;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,6 +15,8 @@ use App\Http\Controllers\Api\AuthController;
 |
 */
 
+
+Route::post('zoho/store', [Webhook::class, 'store']);
 
 Route::group([
     'middleware' => 'api',

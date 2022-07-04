@@ -36,7 +36,7 @@ class ImageController extends Controller
                 $image = $request->file('image');
                 $filename = date("Y-m-") .time().'-'. $image->getClientOriginalName();
                 $pathFull = 'uploads/images/thumbnail/'. $filename;
-                Image::make($image->getRealPath())->resize(400, 400)->save($pathFull);
+                Image::make($image->getRealPath())->fit(400, 400)->save($pathFull);
                 //move
                 $image->move('uploads/images', $filename);
                 $result = url('').'/'.$pathFull;
