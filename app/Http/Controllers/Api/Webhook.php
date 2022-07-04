@@ -9,7 +9,12 @@ use App\Http\Controllers\Controller;
 class Webhook extends Controller
 {
     public function store(Request $request){
-        Employee::create($request->all());
-        return response()->json(['message' => 'Thành công',], 201);
+        
+        if(!Employee::where('EmployeeID', $request->EmployeeID)->first()){
+            Employee::create($request->all());
+            return response()->json(['message' => 'Created',], 201);
+        }
+            Employee::save($request->all());
+            return response()->json(['message' => 'Updated',], 201);
     }
 }
