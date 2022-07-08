@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\Webhook;
+use App\Http\Controllers\Api\ImportEmployee;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,7 +16,7 @@ use App\Http\Controllers\Api\Webhook;
 */
 
 
-Route::post('zoho/store', [Webhook::class, 'store']);
+Route::post('emplyee/import', [ImportEmployee::class, 'import']);
 
 Route::group([
     'middleware' => 'api',
