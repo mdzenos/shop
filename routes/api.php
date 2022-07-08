@@ -16,7 +16,7 @@ use App\Http\Controllers\Api\ImportEmployee;
 */
 
 
-Route::post('emplyee/import', [ImportEmployee::class, 'import']);
+Route::post('employee/import', [ImportEmployee::class, 'import']);
 
 Route::group([
     'middleware' => 'api',

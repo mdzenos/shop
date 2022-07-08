@@ -23,36 +23,74 @@ class ImportEmployee extends Controller
         $config = $this->getConfig($token);
         $zoho = new ZohoController($config);
         $employees = $zoho->getRecords($config['employee']['getRecords']);
-        dd($employees);
 
-        $data= $request->all();
-        dd($employees);
+        $EmployeeID = $request->EmployeeID;
+        $record = Employee::where('EmployeeID', $EmployeeID);
+dd($employees);
+        foreach ($employees as $employee) {
 
+            try {
+                if($EmployeeID == $employee['EmployeeID']){//Zoho_ID 412762000139836883
+                    $data = $zoho->getRecordByID($employee['Zoho_ID'], $config['employee']['getRecordByID']);
+                }else if (!empty($data['errors'])) {
+                    continue;
+                }
 
-        // dua vao token de lay config form
-        /*"getDataByID" => "forms/employee/getDataByID"
-        "getRecordByID" => "forms/employee/getRecordByID"
-        "getRecords" => "forms/employee/getRecords"
-        "getRecordCount" => "forms/employee/getRecordCount"
-        "insertRecord" => "forms/json/employee/insertRecord"
-        "updateRecord" => "forms/json/employee/updateRecord" */
+                if(!$record->first()){
+                    Employee::create([
+                        'role_id' => $data['Role.ID'],
+                        'code' => $data['EmployeeID'],
+                        'zoho_id' => $data['Zoho_ID'],
+                        'zoho_user_id' => $data['783925774'],
+                        'full_name' => $data['LastName'].' '.$data['FirstName'],
+                        'email' => $data['EmailID'],
+                        'job_level' => $data['Job_Level'],
+                        'job_rank' => $data['Job_Rank'],
+                        'department_id' => $data['Department.ID'],
+                        'department_name' => $data['Department'],
+                        'division_id' => $data['Division.ID'],
+                        'division_name' => $data['Division'],
+                        'date_of_exit' => $data['Dateofexit'],
+                        'date_of_joining' => $data['Dateofjoining'],
+                        'date_of_birth' => $data['Date_of_birth'],
+                        'location_name' => $data['LocationName'],
+                        'location_id' => $data['LocationName.ID'],
+                        'reporting_to' => $data['Reporting_To.MailID'],
+                        'reporting_to_id' => $data['Reporting_To.ID'],
+                        'active' => $data['Employeestatus'],
+                    ]);
+                    return response()->json(['message' => 'Created',], 201);
+                }else if($record->first()){
+                    $record->update([
+                        'role_id' => $data['Role.ID'],
+                        'code' => $data['EmployeeID'],
+                        'zoho_id' => $data['Zoho_ID'],
+                        'zoho_user_id' => $data['783925774'],
+                        'full_name' => $data['LastName'].' '.$data['FirstName'],
+                        'email' => $data['EmailID'],
+                        'job_level' => $data['Job_Level'],
+                        'job_rank' => $data['Job_Rank'],
+                        'department_id' => $data['Department.ID'],
+                        'department_name' => $data['Department'],
+                        'division_id' => $data['Division.ID'],
+                        'division_name' => $data['Division'],
+                        'date_of_exit' => $data['Dateofexit'],
+                        'date_of_joining' => $data['Dateofjoining'],
+                        'date_of_birth' => $data['Date_of_birth'],
+                        'location_name' => $data['LocationName'],
+                        'location_id' => $data['LocationName.ID'],
+                        'reporting_to' => $data['Reporting_To.MailID'],
+                        'reporting_to_id' => $data['Reporting_To.ID'],
+                        'active' => $data['Employeestatus'],
+                    ]);
+                    return response()->json(['message' => 'Updated',], 201);
+                }else{
+                    return response()->json(['message' => 'Failed',], 201);
+                }
 
-    }
-    public function store(Request $request){
-        $data = Employee::where('EmployeeID', $request->EmployeeID);
-        $auth = $request->token === 'WoaCoxpX6yUoEfZnAy4ERszWRYFOyUcipzxqqlpXlDaFeU6vSPgJhbwWmtbA';
-        if($auth && !$data->first()){
-            Employee::create($request->all());
-            return response()->json(['message' => 'Created',], 201);
-        }else if($auth && $data->first()){
-            $data->update([
-                'FirstName' => $request->FirstName,
-                'LastName' => $request->LastName,
-                'EmailID' => $request->EmailID,
-            ]);
-            return response()->json(['message' => 'Updated',], 201);
-        }else{
-            return response()->json(['message' => 'Failed',], 201);
+            } catch (\GuzzleHttp\Exception\RequestException $e) {
+                continue;
+            }
         }
     }
 }
