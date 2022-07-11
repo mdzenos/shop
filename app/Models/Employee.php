@@ -23,6 +23,12 @@ class Employee extends Authenticatable
      */
     protected $fillable = [
         'emp_id',
+        'code',
+        'zoho_id',
+        'no_dependent',
+        'avatar',
+        'email',
+        'domain_id',
         'active',
         'birthday_image',
         'date_of_birth',
