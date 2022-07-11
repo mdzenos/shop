@@ -10,8 +10,6 @@ use App\Http\Controllers\ZohoController;
 
 class ImportEmployee extends Controller
 {
-    //
-
     const Token = 'WoaCoxpX6yUoEfZnAy4ERszWRYFOyUcipzxqqlpXlDaFeU6vSPgJhbwWmtbA';
     const Limit = 200;
 
