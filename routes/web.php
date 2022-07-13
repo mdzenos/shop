@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AccountController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\Api\ImportProject;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,6 +21,7 @@ use App\Http\Controllers\ImageController;
 Route::get('/', function () {
     return view('index');
 });
+Route::post('/import/project', [ImportProject::class,'import']);
 
 
 Route::group(['prefix' => 'admin'], function () {
