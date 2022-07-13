@@ -21,7 +21,7 @@ use App\Http\Controllers\Api\ImportProject;
 Route::get('/', function () {
     return view('index');
 });
-Route::post('/import/project', [ImportProject::class,'import']);
+Route::post('/import/department', [ImportProject::class,'import']);
 
 
 Route::group(['prefix' => 'admin'], function () {

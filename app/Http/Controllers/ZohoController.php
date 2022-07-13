@@ -196,7 +196,7 @@ class ZohoController extends Controller
         }
 
         $url = $domain . '/api/' .$action;
-
+       
         if(strtolower($method) == 'get'){
             $typeParam = 'query';
         }else{
@@ -206,7 +206,6 @@ class ZohoController extends Controller
         $body[$typeParam]               = $arrParam;
 
         $response = $client->request($method, $url, $body);
-
        // $statusCode = $response->getStatusCode();
         $data = json_decode($response->getBody(), true);
         if($convert){
@@ -214,7 +213,7 @@ class ZohoController extends Controller
         }else{
             $result = $data;
         }
-
+       
         //callback lại khi gặp lỗi /Internal Server Error Occured/ khi gọi api zoho
         if(isset($result['errors']['code'])){
             $this->logError(true,'',"ERROR callZoho === Action : ". $action ." === IP : ". $ip. ' === TOKEN : '.$zohoToken, $result);
@@ -421,6 +420,7 @@ class ZohoController extends Controller
 
     public function getRecords($form = '', $body = [], $convert = true)
     {
+        
         $response = $this->callZoho($form, $body, $convert);
         return $response;
     }
