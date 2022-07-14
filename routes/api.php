@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\Test;
+use App\Http\Controllers\Api\ImportDepartment;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,6 +18,7 @@ use App\Http\Controllers\Api\Test;
 
 
 Route::post('/test', [Test::class,'test']);
+Route::post('/importDepartment', [ImportDepartment::class,'import']);
 
 Route::group([
     'middleware' => 'api',
