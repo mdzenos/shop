@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\ImportEmployee;
+use App\Http\Controllers\Api\Test;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,7 +16,7 @@ use App\Http\Controllers\Api\ImportEmployee;
 */
 
 
-Route::post('employee/import', [ImportEmployee::class, 'import']);
+Route::post('/test', [Test::class,'test']);
 
 Route::group([
     'middleware' => 'api',
