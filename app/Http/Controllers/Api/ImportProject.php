@@ -26,7 +26,7 @@ class ImportProject extends Controller
             $data = $zoho->getRecordByID($Zoho_ID, $config['department']['getRecordByID']);
 
             if (!empty($data['errors'])) {
-                return response()->json(['message' => 'Error',], 404);
+                return ['code' => 404, 'msg' => 'Data error'];
             }
 
             if (!$record) {
